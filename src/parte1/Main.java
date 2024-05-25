@@ -3,7 +3,7 @@ package parte1;
 public class Main {
 
 	public static void main(String[] args) {
-		Servicios servicios = new Servicios();
+		Servicios servicios = new Servicios(null, null);
 
         // Crear tareas de ejemplo
         Tarea tarea1 = new Tarea("T001", "Tarea Limpieza", 30, false, 2);

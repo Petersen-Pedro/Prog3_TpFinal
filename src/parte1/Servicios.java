@@ -35,7 +35,7 @@ public class Servicios {
 	* la ubicacion de lo que buscamos
 	*/
 	public Tarea servicio1(String id) {
-		return this.getTareaMapId().get(id);
+		return this.tareaMapId.get(id);
 	}
 	
 	/*
@@ -62,8 +62,8 @@ public class Servicios {
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		List<Tarea> resultado = new LinkedList<>();
 		
-		for (Map.Entry<Integer, LinkedList<Tarea>> entry : tareasPrioridad.subMap(prioridadInferior, true, prioridadSuperior, true).entrySet()) {
-			resultado.addAll(entry.getValue());
+		for (Map.Entry<Integer, LinkedList<Tarea>> nodoPrioridad : tareasPrioridad.subMap(prioridadInferior, true, prioridadSuperior, true).entrySet()) {
+			resultado.addAll(nodoPrioridad.getValue());
 		}
 				 
 		/* 
@@ -80,9 +80,9 @@ public class Servicios {
 	
 	
 
-	public HashMap<String, Tarea> getTareaMapId() {
-		return tareaMapId;
-	}
+	//public HashMap<String, Tarea> getTareaMapId() {
+	//	return tareaMapId;
+	//}
 	public void insertCritica(Tarea t) {
 		if (t.isEsCritica() == true) {
 			tareasCriticas.add(t);
@@ -91,7 +91,7 @@ public class Servicios {
 		}
 	}
 	public void addTarea(Tarea t) {
-		getTareaMapId().put(t.getId(), t);
+		tareaMapId.put(t.getId(), t);
 	}
 	
 	public TreeMap<Integer, LinkedList<Tarea>> getTareasPrioridad() {
@@ -120,9 +120,9 @@ public class Servicios {
 			Boolean esCritica = Boolean.parseBoolean(t[3]);
 			Integer nivelPrioridad = Integer.parseInt(t[4]);
 			Tarea tarea = new Tarea(id, nombre, tiempoEjecucion, esCritica, nivelPrioridad);
-			contenidoTareas.put(id, tarea);
-			insertCritica(tarea);
+			//contenidoTareas.put(id, tarea);
 			this.addTarea(tarea);
+			insertCritica(tarea);
 			addTareaPrioridad(tarea);
 			
 		}

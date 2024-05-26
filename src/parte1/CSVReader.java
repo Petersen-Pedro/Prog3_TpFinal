@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CSVReader {
-	
-	
-	
 
+	//"Viva la Santa Stackoverflow, mueran los salvajes ChatGPTros"
+	
 	ArrayList<String[]> leerCSV(String path) {
 		ArrayList<String[]> contenido = new ArrayList<String[]>();
 		

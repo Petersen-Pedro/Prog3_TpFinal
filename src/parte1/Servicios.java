@@ -19,10 +19,10 @@ public class Servicios {
 	* m = Cantidad de lineas en el archivo de tareas
 	*/
 	public Servicios(String pathProcesadores, String pathTareas) {
-		tareaMapId = /*new HashMap<>();*/ this.LectorTareasCSV(pathTareas);
 		tareasCriticas = new LinkedList<>();
 		tareasNoCriticas = new LinkedList<>();
 		tareasPrioridad = new TreeMap<>();		
+		tareaMapId = /*new HashMap<>();*/ this.LectorTareasCSV(pathTareas);
 				
 	}
 		
@@ -99,6 +99,8 @@ public class Servicios {
 	
 	//------------
 	
+	//2:42am
+	//EN UN PRICIPIO PUSE ESTE METODO EN EL CSVReader, PERO ERA MAS COMODO HACER QUE LAS TAREAS SE INSERTEN EN EL FOR
 	public HashMap<String, Tarea> LectorTareasCSV(String pathTareas){
 	
 		CSVReader lector = new CSVReader();

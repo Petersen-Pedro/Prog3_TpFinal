@@ -98,6 +98,11 @@ public class Servicios {
 		return tareasPrioridad;
 	}
 	
+	public void addTareaPrioridad(Tarea t) {
+		tareasPrioridad.putIfAbsent(t.getNivelPrioridad(), new LinkedList<>());
+		tareasPrioridad.get(t.getNivelPrioridad()).add(t);
+	}
+	
 	//------------
 	
 	//2:42am
@@ -118,6 +123,8 @@ public class Servicios {
 			contenidoTareas.put(id, tarea);
 			insertCritica(tarea);
 			this.addTarea(tarea);
+			addTareaPrioridad(tarea);
+			
 		}
 		
 		return contenidoTareas;

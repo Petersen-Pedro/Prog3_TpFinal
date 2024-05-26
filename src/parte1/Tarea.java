@@ -35,14 +35,16 @@ public class Tarea {
 		return nivelPrioridad;
 	}    
 	
+	@Override
 	public String toString() {
-		return "Tarea{" +
-                "id= " + id + '\'' +
-                "nombre= " + nombre + '\'' +
-                "tiempoEjecucion= " + tiempoEjecucion +
-                "esCritica= " + esCritica +
-                "nivelPrioridad= " + nivelPrioridad +
-                '}';
+	    return "Tarea{" +
+	            "id='" + id + '\'' +
+	            ", nombre='" + nombre + '\'' +
+	            ", tiempoEjecucion=" + tiempoEjecucion +
+	            ", esCritica=" + esCritica +
+	            ", nivelPrioridad=" + nivelPrioridad +
+	            '}';
 	}
+
 	
 }

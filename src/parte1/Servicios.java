@@ -19,10 +19,11 @@ public class Servicios {
 	* m = Cantidad de lineas en el archivo de tareas
 	*/
 	public Servicios(String pathProcesadores, String pathTareas) {
+		tareaMapId = new HashMap<>();
 		tareasCriticas = new LinkedList<>();
 		tareasNoCriticas = new LinkedList<>();
 		tareasPrioridad = new TreeMap<>();		
-		tareaMapId = /*new HashMap<>();*/ this.LectorTareasCSV(pathTareas);
+		this.LectorTareasCSV(pathTareas);
 				
 	}
 		
@@ -43,11 +44,13 @@ public class Servicios {
 	* que retorne la correspondiente
 	*/
 	public List<Tarea> servicio2(boolean esCritica){
+		return esCritica ? tareasCriticas : tareasNoCriticas;
+		/*
 		if (esCritica == true) {
 			return tareasCriticas;
 		} else {
 			return tareasNoCriticas;
-		}
+		}*/
 	}
 	
 	/*
@@ -90,9 +93,7 @@ public class Servicios {
 	public void addTarea(Tarea t) {
 		getTareaMapId().put(t.getId(), t);
 	}
-	public HashMap<String, Tarea> getTareaMap() {
-		return getTareaMapId();
-	}
+	
 	public TreeMap<Integer, LinkedList<Tarea>> getTareasPrioridad() {
 		return tareasPrioridad;
 	}

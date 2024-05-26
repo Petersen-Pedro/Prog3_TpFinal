@@ -17,7 +17,7 @@ public class Main {
 
         // Imprimir tareas
         System.out.println("Tareas:");
-        for (Tarea tarea : servicios.tareaMap.values()) {
+        for (Tarea tarea : servicios.getTareaMapId().values()) {
             System.out.println("  - Id: " + tarea.getId() + ", Nombre: " + tarea.getNombre());
         }
 

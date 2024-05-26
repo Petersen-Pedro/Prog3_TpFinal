@@ -1,7 +1,6 @@
 package parte1;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,23 +19,13 @@ public class Servicios {
 	* m = Cantidad de lineas en el archivo de tareas
 	*/
 	public Servicios(String pathProcesadores, String pathTareas) {
-		tareaMapId = new HashMap<>();
+		tareaMapId = /*new HashMap<>();*/ this.LectorTareasCSV(pathTareas);
 		tareasCriticas = new LinkedList<>();
 		tareasNoCriticas = new LinkedList<>();
 		tareasPrioridad = new TreeMap<>();		
 				
-		cargarDatos(pathProcesadores, pathTareas);
 	}
-	
-	private void cargarDatos(String pathProcesadores, String pathTareas) {
 		
-		CSVReader lector = new CSVReader(new FileReader(pathTareas));
-		
-	}
-	
-	
-	
-	
 	
 	/*
 	* Complejidad temporal = O(1).
@@ -44,8 +33,8 @@ public class Servicios {
 	* darle la key correspondiente (el id en este caso) nos da 
 	* la ubicacion de lo que buscamos
 	*/
-	public Tarea servicio1(String ID) {
-		return this.getTareaMapId().get(ID);
+	public Tarea servicio1(String id) {
+		return this.getTareaMapId().get(id);
 	}
 	
 	/*
@@ -62,7 +51,10 @@ public class Servicios {
 	}
 	
 	/*
-	* Expresar la complejidad temporal del servicio 3.
+	* Complejidad temporal = O(m log n).
+	* n = niveles totales de prioridad
+	* m = total de tareas dentro del rango establecido
+	* 
 	*/
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		List<Tarea> resultado = new LinkedList<>();
@@ -85,18 +77,49 @@ public class Servicios {
 	
 	
 
-	public HashMap<String, Tarea> getTareaMap() {
-		return getTareaMapId();
+	public HashMap<String, Tarea> getTareaMapId() {
+		return tareaMapId;
+	}
+	public void insertCritica(Tarea t) {
+		if (t.isEsCritica() == true) {
+			tareasCriticas.add(t);
+		} else {
+			tareasNoCriticas.add(t);
+		}
 	}
 	public void addTarea(Tarea t) {
 		getTareaMapId().put(t.getId(), t);
 	}
+	public HashMap<String, Tarea> getTareaMap() {
+		return getTareaMapId();
+	}
 	public TreeMap<Integer, LinkedList<Tarea>> getTareasPrioridad() {
 		return tareasPrioridad;
 	}
-
-	public HashMap<String, Tarea> getTareaMapId() {
-		return tareaMapId;
+	
+	//------------
+	
+	public HashMap<String, Tarea> LectorTareasCSV(String pathTareas){
+	
+		CSVReader lector = new CSVReader();
+		ArrayList<String[]> contenidoPathTareas = lector.leerCSV(pathTareas);
+		HashMap<String, Tarea> contenidoTareas = new HashMap<String, Tarea>();
+		
+		for(String[] t : contenidoPathTareas) {
+			String id = t[0];
+			String nombre = t[1];
+			Integer tiempoEjecucion = Integer.parseInt(t[2]);
+			Boolean esCritica = Boolean.parseBoolean(t[3]);
+			Integer nivelPrioridad = Integer.parseInt(t[4]);
+			Tarea tarea = new Tarea(id, nombre, tiempoEjecucion, esCritica, nivelPrioridad);
+			contenidoTareas.put(id, tarea);
+			insertCritica(tarea);
+			this.addTarea(tarea);
+		}
+		
+		return contenidoTareas;
 	}
+	
+	
 	
 }

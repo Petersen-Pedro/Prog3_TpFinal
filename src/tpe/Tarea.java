@@ -1,4 +1,4 @@
-package parte1;
+package tpe;
 
 public class Tarea {
 	private String id;

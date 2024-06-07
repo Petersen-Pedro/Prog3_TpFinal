@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import practico5_backtracking.Procesador;
 import tpe.utils.CSVReader;
 
 public class Servicios {
 	private HashMap<String, Tarea> tareaMapId;
+	private LinkedList<Procesador> procesadores;
 	private LinkedList<Tarea> tareasCriticas;
     private LinkedList<Tarea> tareasNoCriticas;
     private TreeMap<Integer, LinkedList<Tarea>> tareasPrioridad; 
@@ -25,7 +27,7 @@ public class Servicios {
 		tareasPrioridad = new TreeMap<>();
 		CSVReader reader = new CSVReader();
 		this.tareaMapId = reader.readTasks(pathTareas, this);
-				
+		this.procesadores = reader.readProcesadores(pathProcesadores,this);		
 	}
 		
 	

@@ -73,11 +73,17 @@ public class Servicios {
 				
 		return resultado;
 	}
-	/*
-	public void servicio4(int tiempoMaxProcNoRefrigerado) {
+
+	
+	public LinkedList<Procesador> servicio4(int tiempoMaxProcNoRefrigerado) {
+		
+		LinkedList<Tarea> tareas = new LinkedList<>();
+		tareas.addAll(tareasCriticas);
+		tareas.addAll(tareasNoCriticas);
         Backtracking_Greedy servicio4 = new Backtracking_Greedy();
         return servicio4.back(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
     }
+	/*
 	 */
 	public void insertCritica(Tarea t) {
 		if (t.isEsCritica() == true) {

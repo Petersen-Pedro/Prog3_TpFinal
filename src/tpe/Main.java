@@ -1,7 +1,5 @@
 package tpe;
 
-import tpe.utils.Backtracking_Greedy;
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -21,9 +19,9 @@ public class Main {
         System.out.println(servicios.servicio3(33,80));
 		System.out.println("X----------------------------------------");
 		System.out.println("Servicio 4 =");
-        Backtracking_Greedy servicio4 = new Backtracking_Greedy();
+		System.out.println(servicios.servicio4(50));
         
-        System.out.println(servicio4.back(null, null, 0));
+		
         
 	}
 

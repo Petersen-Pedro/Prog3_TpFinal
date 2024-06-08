@@ -26,6 +26,7 @@ public class Backtracking_Greedy {
         int tareasAsignadas = tareas.size(); 
         back(tareas, procesadores, tiempoActual, tareasAsignadas, 
         	 tiempoMaxProcNoRefrigerado);
+        System.out.println("test---");
         if(mejorSolucion.isEmpty()) {
         	System.out.println("Mas tareas criticas de lo que pueden "
         					 + "soportar los procesadores!!!!!");

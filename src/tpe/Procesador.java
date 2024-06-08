@@ -87,5 +87,14 @@ public class Procesador {
 		return anioFuncionamiento;
 	}
 	
-	
+	@Override
+    public String toString() {
+        return "\n \n Procesador{" +
+                "\n id='" + id + '\'' +
+                "\n tareas=" + tareas +
+                "\n estaRefrigerado=" + estaRefrigerado +
+                "\n tiempoDeEjecucionAcumulado=" + tiempoDeEjecucionAcumulado +
+                "\n tareasCriticas=" + tareasCriticas +
+                '}';
+    }
 }

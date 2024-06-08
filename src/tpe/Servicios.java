@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import practico5_backtracking.Procesador;
+import tpe.utils.Backtracking_Greedy;
 import tpe.utils.CSVReader;
 
 public class Servicios {
@@ -27,7 +27,7 @@ public class Servicios {
 		tareasPrioridad = new TreeMap<>();
 		CSVReader reader = new CSVReader();
 		this.tareaMapId = reader.readTasks(pathTareas, this);
-		this.procesadores = reader.readProcesadores(pathProcesadores,this);		
+		this.procesadores = reader.readProcessors(pathProcesadores,this);		
 	}
 		
 	
@@ -73,8 +73,12 @@ public class Servicios {
 				
 		return resultado;
 	}
-	
-
+	/*
+	public void servicio4(int tiempoMaxProcNoRefrigerado) {
+        Backtracking_Greedy servicio4 = new Backtracking_Greedy();
+        return servicio4.back(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
+    }
+	 */
 	public void insertCritica(Tarea t) {
 		if (t.isEsCritica() == true) {
 			tareasCriticas.add(t);
@@ -93,6 +97,9 @@ public class Servicios {
 	public void addTareaPrioridad(Tarea t) {
 		tareasPrioridad.putIfAbsent(t.getNivelPrioridad(), new LinkedList<>());
 		tareasPrioridad.get(t.getNivelPrioridad()).add(t);
+	}
+	public void addProcesadores(Procesador p) {
+		this.procesadores.add(p);
 	}
 		
 }

@@ -47,29 +47,39 @@ public class CSVReader {
 	public HashMap<String, Tarea> readTasks(String taskPath, Servicios servicios){
 		
 		HashMap<String, Tarea> contenidoTareas = new HashMap<String, Tarea>();
-		
-		
 		ArrayList<String[]> lines = this.readContent(taskPath);
 		
-		for(String[] t : lines) {
-			String id = t[0];
-			String nombre = t[1];
-			Integer tiempoEjecucion = Integer.parseInt(t[2]);
-			Boolean esCritica = Boolean.parseBoolean(t[3]);
-			Integer nivelPrioridad = Integer.parseInt(t[4]);
+		for (String[] line: lines) {
+			String id = line[0].trim();
+			String nombre = line[1].trim();
+			Integer tiempo = Integer.parseInt(line[2].trim());
+			Boolean critica = Boolean.parseBoolean(line[3].trim());
+			Integer prioridad = Integer.parseInt(line[4].trim());
 
-			Tarea tarea = new Tarea(id, nombre, tiempoEjecucion, 
-									esCritica, nivelPrioridad);
+			Tarea tarea = new Tarea(id, nombre, tiempo, 
+									critica, prioridad);
 			contenidoTareas.put(id, tarea);
 			servicios.insertCritica(tarea);
-			servicios.addTareaPrioridad(tarea);
-			
-			
+			servicios.addTareaPrioridad(tarea);			
 		}
-		
 		return contenidoTareas;
 	}
 
+	public LinkedList<Procesador> readProcessors(String processorPath, Servicios servicios) {
+				
+		LinkedList<Procesador> Procesadores = new LinkedList<>();
+		ArrayList<String[]> lines = this.readContent(processorPath);
+		
+		for (String[] line: lines) {
+			String id = line[0].trim();
+			String codigo = line[1].trim();
+			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
+			Integer anio = Integer.parseInt(line[3].trim());
 
-	
+			Procesador procesador = new Procesador(id, codigo, refrigerado, anio);
+			Procesadores.add(procesador);
+		}
+		return Procesadores;
+		
+	}	
 }

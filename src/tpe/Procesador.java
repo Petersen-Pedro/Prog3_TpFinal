@@ -12,7 +12,8 @@ public class Procesador {
     private int tiempoDeEjecucionAcumulado;
     private int tareasCriticas;
 	
-	public Procesador(String id, String codigo, boolean estaRefrigerado, int anioFuncionamiento) {
+	public Procesador(  String id, String codigo, boolean estaRefrigerado, 
+						int anioFuncionamiento) {
 		this.id = id;
 		this.codigo = codigo;
 		this.estaRefrigerado = estaRefrigerado;

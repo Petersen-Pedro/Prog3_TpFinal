@@ -75,13 +75,21 @@ public class Servicios {
 	}
 
 	
-	public LinkedList<Procesador> servicio4(int tiempoMaxProcNoRefrigerado) {
+	public LinkedList<Procesador> servicio4Backtraking(int tiempoMaxProcNoRefrigerado) {
 		
 		LinkedList<Tarea> tareas = new LinkedList<>();
 		tareas.addAll(tareasCriticas);
 		tareas.addAll(tareasNoCriticas);
         Backtracking_Greedy servicio4 = new Backtracking_Greedy();
         return servicio4.back(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
+    }
+	public LinkedList<Procesador> servicio4Greedy(int tiempoMaxProcNoRefrigerado) {
+		
+		LinkedList<Tarea> tareas = new LinkedList<>();
+		tareas.addAll(tareasCriticas);
+		tareas.addAll(tareasNoCriticas);
+        Backtracking_Greedy servicio4 = new Backtracking_Greedy();
+        return servicio4.greedy(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
     }
 	/*
 	 */

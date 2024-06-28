@@ -14,7 +14,7 @@ public class Backtracking_Greedy {
     public Backtracking_Greedy() {
         this.mejorTiempoDeEjecucion = Integer.MAX_VALUE;
         this.mejorSolucion = new LinkedList<Procesador>();
-        this.maximoDeCriticas = 1;
+        this.maximoDeCriticas = 2;
     }
 
     // CONSIDERANDO EN TODO MOMENTO QUE UNA TAREA ES INDIVISIBLE, 
@@ -40,7 +40,7 @@ public class Backtracking_Greedy {
     				  LinkedList<Procesador> procesadores, int tiempoActual, 
     				  int tareasAsignadas, int tiempoMaxProcNoRefrigerado) {
         if (tareasAsignadas == 0) { 								// cuando no quedan mas tareas que asignar
-            if (tiempoActual < this.mejorTiempoDeEjecucion) {      // y el tiempo de la llamda actual es menor que el guardado anteriormente ( mejorTiempoDeEjecucion se inicializa en Integer.MAX_VALUE
+            if (tiempoActual <= this.mejorTiempoDeEjecucion) {      // y el tiempo de la llamda actual es menor que el guardado anteriormente ( mejorTiempoDeEjecucion se inicializa en Integer.MAX_VALUE
                 this.mejorTiempoDeEjecucion = tiempoActual;			//mejor tiempo ahora es el de la llamda actual
                 actualizarMejorSolucion(procesadores);				//guardo esos procesadores con esas tareas
             }

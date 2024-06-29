@@ -18,10 +18,10 @@ public class Main {
 		System.out.println("Servicio 3 = 33 y 80");
         System.out.println(servicios.servicio3(33,80));
 		System.out.println("X----------------------------------------");
-		System.out.println("Servicio 4 backtrakcking = 100");
+		System.out.println("Servicio 4 backtrakcking = 200");
 		System.out.println(servicios.servicio4Backtraking(200));
 		System.out.println("X----------------------------------------");
-		System.out.println("Servicio 4 Greedy = 100");
+		System.out.println("Servicio 4 Greedy = 200");
 		System.out.println(servicios.servicio4Greedy(200));
         
 		/*

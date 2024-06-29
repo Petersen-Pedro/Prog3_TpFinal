@@ -1,5 +1,6 @@
 package tpe.utils;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 import tpe.Procesador;
@@ -7,18 +8,100 @@ import tpe.Tarea;
 
 
 public class Backtracking_Greedy {
-    private int mejorTiempoDeEjecucion;
+	private int estados;
+	private int peorTiempo;
+	/*backTracking atributos*/
+	private int mejorTiempoDeEjecucion;
     private LinkedList<Procesador> mejorSolucion;
+    
     
     public Backtracking_Greedy() {
         this.mejorTiempoDeEjecucion = Integer.MAX_VALUE;
         this.mejorSolucion = new LinkedList<Procesador>();
+        this.estados = 0;
+        this.peorTiempo = -1;
     }
+	/*
+	 	Greedy:
+	 	-La estrategia del metodo greedy es:
+	 	-ordenar los procesadores poniendo primero los refrigerados(para que guarden las tareas de mayor valor los que no tienen limite)
+	 	y ordenando las tareas de manera descendiente poniendo primero las tareas con mayor tiempo.
+	 	-recorrer hasta que la lista de tareas este sin mas tareas, y en caso de no poder asignar una tarea se devuelve null
+	 	-si se puede asignar una tarea lo va a hacer eligiendo el mejorProcesador para esa tarea el metodo "mejorProcesadorParaInsertar()"
+	 	lo que va a hacer es buscar el procesador con menor tiempo acumulado y que cumpla los requisitos del sistema(menos de 2 tareas criticas y 
+	 	que no supere x tiempo en caso de no ser refrigerado)
+	 	-
+	 */
 
-    // CONSIDERANDO EN TODO MOMENTO QUE UNA TAREA ES INDIVISIBLE, 
-    // ES DECIR, NO PUEDE SER ASIGNADA A VARIOS PROCESADORES
-    
+	public LinkedList<Procesador> greedy(LinkedList<Tarea> tareas, LinkedList<Procesador> procesadores, int tiempoMaxProcNoRefrigerado) {
+		this.estados = 0;
+		this.peorTiempo = 0;
+		LinkedList<Procesador> s = new LinkedList<>();
+        Collections.sort(tareas, (t1, t2) -> Integer.compare(t2.getTiempoEjecucion(), t1.getTiempoEjecucion()));
+        Collections.sort(procesadores, (p1, p2) -> Boolean.compare(p2.isEstaRefrigerado(), p1.isEstaRefrigerado()));
+		while(!tareas.isEmpty()) {
+		
+			Tarea t  = tareas.getFirst();
+			
+			Procesador procesador = mejorProcesadorParaInsertar(procesadores,t,tiempoMaxProcNoRefrigerado);
+			
+			if(procesador != null ) {
+				procesador.agregarTarea(t);
+				tareas.removeFirst();
+			}else {
+				return null;
+			}
+			if(procesador.getTiempoDeEjecucionAcumulado()>peorTiempo) {
+				this.peorTiempo = procesador.getTiempoDeEjecucionAcumulado();
+			}
+								
+	}
+			
+		s.addAll(procesadores);
+		
+		return s;
+	}
+
+	
+	private Procesador mejorProcesadorParaInsertar(LinkedList<Procesador> procesadores,Tarea tareaAInsertar,int tiempoMaxProcNoRefrigerado) {
+		int menorTiempoEjecucion = Integer.MAX_VALUE;
+		Procesador mejorProcesador = null;
+		for(Procesador p : procesadores) {
+			if( ( p.getTiempoDeEjecucionAcumulado() < menorTiempoEjecucion ) &&
+				(!tareaAInsertar.isEsCritica() || p.getTareasCriticas() < 2) &&
+                (p.isEstaRefrigerado() || (p.getTiempoDeEjecucionAcumulado() + tareaAInsertar.getTiempoEjecucion()) <= tiempoMaxProcNoRefrigerado)) {
+				menorTiempoEjecucion = p.getTiempoDeEjecucionAcumulado();
+				mejorProcesador = p;
+				this.estados++;
+			}
+		}
+		return mejorProcesador;
+	}
+
+	public int cantidadDeEstados() {
+		return this.estados;
+		
+	}
+	public int getPeorTiempo() {
+		return this.peorTiempo;
+	}
+//BACKTRACKING!
+
+	/*
+	 	BackTracking:
+	 	-La estrategia del metodo BackTracking es:
+	 	-llevar un numero de tareas a asignar(size de la lista de tareas),un tiempo de la busqueda actual y el peorTiempo encontrado hasta el momento.
+	 	-va a recorrer hasta que no tenga mas tareas y va a ser una solucion si el tiempo encontrado es mejor que el mejorTiempo de la recursion anterior
+ 		 En caso de quedar mas tareas a asignar va a recorrer por cada uno de los procesadores preguntando si no contienen la tarea,si respetan la cant maxima de tareas criticas
+ 		 y si no es refrigerado,que no supere el tiempo maximo.Si cumple se saca una tarea de la lista de tareas a asignar y se va guardando el valor del mayorTiempo,si un procesador 
+ 		 ya supera el mejorTiempoDeEjecucion se hace poda ya que no va a ser una solucion mejor a la ya encontrada 
+	 	-Los procesadores van a guardar sus tareas en caso de haber una mejor solucion.se actualiza la solucion guardada ,poniendo como solucion la mejor manera de guardar tareas en cada procesador.
+	 */
+	
+	
     public LinkedList<Procesador> back(LinkedList<Tarea> tareas, LinkedList<Procesador> procesadores,int tiempoMaxProcNoRefrigerado) {
+    	this.estados = 0;
+    	this.peorTiempo = 0;
         int tiempoActual = 0;
         int tareasAsignadas = tareas.size(); // un contador de tareasAsignadas que si no es 0 quiere decir que quedan tareas por asignar
         
@@ -26,13 +109,12 @@ public class Backtracking_Greedy {
         if(mejorSolucion.isEmpty()) {
         	System.out.println("Mas tareas criticas de lo que pueden soportar los procesadores!!!!!");
         }
-        System.out.println("el mejor tiempo es "+this.mejorTiempoDeEjecucion);
+        this.peorTiempo = this.mejorTiempoDeEjecucion;
         return mejorSolucion;
     }
 
     private void back(LinkedList<Tarea> tareas, LinkedList<Procesador> procesadores, int tiempoActual, int tareasAsignadas, int tiempoMaxProcNoRefrigerado) {
         if (tareasAsignadas == 0) {
-        	System.out.println(procesadores);
         	if (tiempoActual <= this.mejorTiempoDeEjecucion) {
                 this.mejorTiempoDeEjecucion = tiempoActual;
                 actualizarMejorSolucion(procesadores); 
@@ -52,7 +134,8 @@ public class Backtracking_Greedy {
 	                    int tiempoMaximoActual = Math.max(tiempoActual, nuevoTiempoProcesador); // tiempoActual cambiar nombre !!
 	                    
 	                    tareasAsignadas--;
-	                    if (tiempoMaximoActual <= this.mejorTiempoDeEjecucion) {
+	                    if (tiempoMaximoActual < this.mejorTiempoDeEjecucion) {
+	                    	this.estados++;
 	                        back(tareas, procesadores, tiempoMaximoActual, tareasAsignadas, tiempoMaxProcNoRefrigerado);
 	                    }
 
@@ -70,61 +153,4 @@ public class Backtracking_Greedy {
             mejorSolucion.add(p.copiar());
         }
     }
-
-    public LinkedList<Procesador> greedy(LinkedList<Tarea> tareas, LinkedList<Procesador> procesadores,int tiempoMaxProcNoRefrigerado) {
-		LinkedList<Procesador> s = new LinkedList<>();					
-		int cantidadTareas = tareas.size()-1;
-		int peorTiempo = Integer.MAX_VALUE;
-		int tiempoProcesador = Integer.MAX_VALUE;
-		boolean criticas = analizarCriticas(tareas,procesadores.size());
-		
-		while(cantidadTareas >=0 && criticas == false ) {//mientras tenga tareas y la cantidad de criticas sea menor a la cantidad de criticas que pueden soportar mis procesadores (2 maximo por procesador)
-			
-			
-			for(int i = 0; i<procesadores.size() && cantidadTareas >=0; i++) {		
-				
-				
-				if( ( procesadores.get(i).getTiempoDeEjecucionAcumulado() < peorTiempo ) 						//si el tiempo acumulado que tiene mi procesador es menor 
-					&& ( procesadores.get(i).getTiempoDeEjecucionAcumulado() <= tiempoProcesador ) 				//al peor tiempo que tengo guardado que lleva un procesador
-					&& (procesadores.get(i).getTareasCriticas() < 2) ) {						//y menor o igual al tiempo de mi procesador anterior y no supera las 2 tareas criticas 
-					
-					if(procesadores.get(i).isEstaRefrigerado()) {					//si esta refrigerado
-						procesadores.get(i).agregarTarea(tareas.get(cantidadTareas));
-						tiempoProcesador = procesadores.get(i).getTiempoDeEjecucionAcumulado();
-						peorTiempo = Math.max(peorTiempo,tiempoProcesador);			//me quedo con el peor tiempo
-						
-						cantidadTareas--;			//saco una tarea
-					}else if( ( procesadores.get(i).getTiempoDeEjecucionAcumulado() + tareas.get(cantidadTareas).getTiempoEjecucion()  ) <= tiempoMaxProcNoRefrigerado) {  //si NO esta refrigerado que no supere el 
-																																								//tiempo maximo de procesadores no refrigerados
-						procesadores.get(i).agregarTarea(tareas.get(cantidadTareas));	
-						tiempoProcesador = procesadores.get(i).getTiempoDeEjecucionAcumulado();
-						peorTiempo = Math.max(peorTiempo,tiempoProcesador);
-						
-						cantidadTareas--;		//saco una tarea
-					}
-				}
-				
-			}
-		}
-		s.addAll(procesadores);
-
-		
-		return s ;
-	}
-
-	private boolean analizarCriticas(LinkedList<Tarea> tareas, int cantProcesadores) {
-		int contadorCriticas = 0;
-		for(Tarea t : tareas) {
-			
-			if(t.isEsCritica()) {
-				contadorCriticas += 1;
-			}
-			
-		}
-		if(contadorCriticas > cantProcesadores *2) {
-            throw new IllegalStateException("Hay "+contadorCriticas +" criticas para "+ cantProcesadores+" procesadores" );
-		}
-		
-		return false;
-	}
 }

@@ -81,14 +81,20 @@ public class Servicios {
 		tareas.addAll(tareasCriticas);
 		tareas.addAll(tareasNoCriticas);
         Backtracking_Greedy servicio4 = new Backtracking_Greedy();
+        servicio4.back(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
+        System.out.println("El peor tiempo es "+servicio4.getPeorTiempo());
+		System.out.println("la cant de estados es "+servicio4.cantidadDeEstados());
         return servicio4.back(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
     }
+	
 	public LinkedList<Procesador> servicio4Greedy(int tiempoMaxProcNoRefrigerado) {
-		
 		LinkedList<Tarea> tareas = new LinkedList<>();
 		tareas.addAll(tareasCriticas);
 		tareas.addAll(tareasNoCriticas);
         Backtracking_Greedy servicio4 = new Backtracking_Greedy();
+        servicio4.greedy(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
+        System.out.println("El peor tiempo es "+servicio4.getPeorTiempo());
+		System.out.println("la cant de estados es "+servicio4.cantidadDeEstados());
         return servicio4.greedy(tareas, this.procesadores, tiempoMaxProcNoRefrigerado);
     }
 	/*
